@@ -1,9 +1,17 @@
 const express = require('express')
 const router = express.Router()
-const {signup} = require('../Controller/userRegisterApi')
-router.post('/signup',signup)
-
+const authMiddleware = require("../middleware/auth")
+const { signup, login } = require('../Controller/userRegisterApi')
+const { project } = require("../Controller/projectApi") 
+const {task} = require("../Controller/taskApi")
+const {readtask} = require("../Controller/taskApi")
+const {updatetask} = require("../Controller/taskApi")
+const {deleteTask} = require('../Controller/taskApi')
+router.post('/signup', signup)
+router.post('/login', login)
+router.post('/add',authMiddleware, project) 
+router.post('/project/:projectId/task', authMiddleware, task)
+router.get('/project/:projectId/read', authMiddleware, readtask)
+router.put('/project/:projectId/updatetask',authMiddleware,updatetask)
+router.delete('/project/:projectId/deletetask',authMiddleware,deleteTask)
 module.exports = router;
-
-
-

@@ -10,6 +10,7 @@ app.listen(process.env.PORT,()=>{
     console.log("Server running on Port number ",process.env.PORT)
 })
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', userRoute);
 
 
