@@ -1,0 +1,18 @@
+const express = require('express')
+const app = express()
+const dotenv = require("dotenv")
+const userRoute = require("./routes/UserRoute")
+dotenv.config()
+const Dbconnection = require('./connection/Dbconnection')
+
+Dbconnection()
+app.listen(process.env.PORT,()=>{
+    console.log("Server running on Port number ",process.env.PORT)
+})
+app.use(express.json())
+app.use('/api/v1', userRoute);
+
+
+app.get('/',(req,res)=>{
+    res.send("Home Route")
+})
