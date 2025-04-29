@@ -13,9 +13,7 @@ exports.project = async function (req, res) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    if (user.projects.length >= 4) {
-      return res.status(400).json({ error: 'Maximum 4 projects allowed' });
-    }
+    
 
     const project = new projectModel({ name, user: user._id });
     await project.save();

@@ -35,27 +35,31 @@ exports.readtask = async function (req, res) {
 
 exports.updatetask = async function (req, res) {
   try {
-    const { projectId } = req.params;
-    console.log(projectId);
+    const { projectId } = req.params; 
+    
     const { title, description, status } = req.body;
     console.log(title, description, status);
-    const task = await TaskModel.findById(projectId);
-    console.log(task);
+
+    const task = await TaskModel.findByIdAndUpdate(
+      projectId,
+      { title, description, status },
+      { new: true }
+    );
+
     if (!task) return res.status(404).json({ error: "Task not found" });
 
-    task.title = title || task.title;
-    task.description = description || task.description;
-    task.status = status || task.status;
     if (status === "Completed") {
       task.completedAt = new Date();
     }
-    await task.save();
 
+    await task.save();
     res.json(task);
   } catch (error) {
     console.log("error while updating", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 
 exports.deleteTask = async function (req,res) {
     const { projectId } = req.params;
